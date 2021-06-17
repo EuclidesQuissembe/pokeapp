@@ -1,9 +1,21 @@
 import React from "react";
 
-import { Name } from "./styles";
+import { Pokemon } from "../../types";
 
-const PokeItem: React.FC = () => {
-  return <Name>Meu nome</Name>;
+import { Container, Name, Avatar, Button } from "./styles";
+
+interface Props {
+  data: Pokemon;
+}
+
+const PokeItem: React.FC<Props> = ({ data: { name, dreamworld } }) => {
+  return (
+    <Container>
+      <Avatar src={dreamworld} alt={name} />
+      <Name>{name}</Name>
+      <Button>Adicionar ao carrinho</Button>
+    </Container>
+  );
 };
 
 export default PokeItem;
