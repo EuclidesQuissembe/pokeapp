@@ -1,8 +1,10 @@
-export interface Pokemon {
-  id: number;
-  url: string;
-  name: string;
-  image: string;
-  artwork: string;
-  dreamworld: string;
+import { PokemonsResponse } from "../../store/ducks/pokemons/types";
+export interface StateProps {
+  pokemons: PokemonsResponse;
 }
+
+export interface DispatchProps {
+  loadRequest(): void;
+}
+
+export type Props = StateProps & DispatchProps;
