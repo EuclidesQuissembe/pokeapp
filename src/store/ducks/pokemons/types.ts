@@ -4,6 +4,11 @@ export enum PokemonsTypes {
   LOAD_FAILURE = "@pokemons/LOAD_FAILURE",
 }
 
+export interface Pagination {
+  limit: number;
+  offset: number;
+}
+
 export interface Pokemon {
   id: number;
   url: string;
