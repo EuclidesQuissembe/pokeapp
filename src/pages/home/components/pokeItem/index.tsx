@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Pokemon } from "../../types";
+import { Pokemon } from "../../../../store/ducks/pokemons/types";
 
 import { Container, Name, Avatar, Button } from "./styles";
 
