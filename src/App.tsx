@@ -1,7 +1,10 @@
 import { BrowserRouter } from "react-router-dom";
 import { createGlobalStyle } from "styled-components";
+import { ApolloProvider } from "@apollo/client";
 
 import Routes from "./routes";
+
+import apolloClient from "./configs/apollo-client";
 
 import { Container } from "./styles";
 const GlobalStyle = createGlobalStyle`
@@ -18,9 +21,11 @@ function App() {
   return (
     <BrowserRouter>
       <GlobalStyle />
-      <Container>
-        <Routes />
-      </Container>
+      <ApolloProvider client={apolloClient}>
+        <Container>
+          <Routes />
+        </Container>
+      </ApolloProvider>
     </BrowserRouter>
   );
 }
