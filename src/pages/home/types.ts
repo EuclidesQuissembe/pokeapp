@@ -1,10 +1,10 @@
-import { PokemonsResponse } from "../../store/ducks/pokemons/types";
+import { PokemonsState, Pagination } from "../../store/ducks/pokemons/types";
 export interface StateProps {
-  pokemons: PokemonsResponse;
+  data: PokemonsState;
 }
 
 export interface DispatchProps {
-  loadRequest(): void;
+  loadRequest(pagination: Pagination): void;
 }
 
 export type Props = StateProps & DispatchProps;
