@@ -12,8 +12,9 @@ import { Props } from "./types";
 
 import { Container, Row, Col, Button } from "./styles";
 import { useCallback } from "react";
+import { Pokemon } from "../../store/ducks/pokemons/types";
 
-const Home: React.FC<Props> = ({ data, loadRequest }) => {
+const Home: React.FC<Props> = ({ data, loadRequest, addToCollection }) => {
   const limit = 100;
 
   const [offset, setOffset] = useState<number>(0);
@@ -30,20 +31,25 @@ const Home: React.FC<Props> = ({ data, loadRequest }) => {
   function handlePrevPage() {
     if (!data.data.pokemons.previous) return;
 
-    let p = page - 1;
-
-    setOffset(limit * p);
-    setPage(p);
+    changePage(page - 1);
   }
 
   function handleNextPage() {
     if (!data.data.pokemons.next) return;
 
-    let p = page + 1;
+    changePage(page + 1);
+  }
 
+  function changePage(p: number) {
     setOffset(limit * p);
     setPage(p);
   }
+
+  function addToPokemonCollection(pokemon: Pokemon) {
+    addToCollection(pokemon.name);
+  }
+
+  if (data.error) return <h1>Erro</h1>;
 
   return (
     <>
@@ -54,7 +60,7 @@ const Home: React.FC<Props> = ({ data, loadRequest }) => {
         <Container>
           <Row>
             {data.data.pokemons.results.map((res) => (
-              <Col key={res.id}>
+              <Col key={res.id} onClick={() => addToPokemonCollection(res)}>
                 <PokeItem data={res} />
               </Col>
             ))}
