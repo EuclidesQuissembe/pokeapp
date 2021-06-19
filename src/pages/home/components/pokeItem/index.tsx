@@ -13,7 +13,7 @@ const PokeItem: React.FC<Props> = ({ data: { name, dreamworld } }) => {
     <Container>
       <Avatar src={dreamworld} alt={name} />
       <Name>{name}</Name>
-      <Button>Adicionar ao carrinho</Button>
+      <Button>Colecionar</Button>
     </Container>
   );
 };
