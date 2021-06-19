@@ -5,6 +5,7 @@ export interface StateProps {
 
 export interface DispatchProps {
   loadRequest(pagination: Pagination): void;
+  addToCollection(name: string): void;
 }
 
 export type Props = StateProps & DispatchProps;
