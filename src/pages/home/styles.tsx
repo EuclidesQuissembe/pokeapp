@@ -1,31 +1,29 @@
 import styled from "styled-components";
+import { shade } from "polished";
 
 export const Container = styled.div`
   position: relative;
   width: 100%;
 `;
 
-export const Row = styled.div`
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-`;
-
-export const Col = styled.div`
+export const ContainerButton = styled.div`
   width: 100%;
-  flex: 1;
-  @media (max-width: 512px) {
-  }
+  bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 30px;
 `;
 
 export const Button = styled.button`
   padding: 10px;
   border: none;
   border-radius: 5px;
-  background-color: blue;
-  color: white;
+  background-color: ${(props) => props.theme.colors.primary};
+  color: ${(props) => props.theme.colors.white};
 
   &:hover {
     cursor: pointer;
+
+    background-color: ${(props) => shade(0.4, props.theme.colors.primary)};
   }
 `;

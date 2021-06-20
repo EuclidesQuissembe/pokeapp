@@ -1,7 +1,8 @@
 import { Reducer } from "redux";
 import produce, { Draft } from "immer";
 
-import { PokedexState, PokedexTypes } from "./types";
+import { Pokedex, PokedexState, PokedexTypes } from "./types";
+import { Constants } from "../../../utils/constants";
 
 const INITIAL_STATE: PokedexState = {
   pokedexes: [],
@@ -9,7 +10,7 @@ const INITIAL_STATE: PokedexState = {
   error: false,
 };
 
-const reducer: Reducer = (state = INITIAL_STATE, action) => {
+const reducer: Reducer<PokedexState> = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case PokedexTypes.LOAD_REQUEST:
       return {
@@ -17,14 +18,26 @@ const reducer: Reducer = (state = INITIAL_STATE, action) => {
         loading: true,
         error: false,
       };
-    case PokedexTypes.LAOD_SUCCESS:
+    case PokedexTypes.LOAD_SUCCESS:
       return {
         ...state,
         loading: false,
         error: false,
         pokedexes: action.payload.pokedexes,
       };
-    case PokedexTypes.LAOD_FAILURE:
+    case PokedexTypes.LOAD_FROM_DB: {
+      const get = localStorage.getItem(Constants.POKEDEXES);
+
+      if (!get) return { ...state };
+
+      const data: Pokedex[] = JSON.parse(get);
+
+      return {
+        ...state,
+        pokedexes: data,
+      };
+    }
+    case PokedexTypes.LOAD_FAILURE:
       return {
         ...state,
         loading: false,
@@ -33,18 +46,40 @@ const reducer: Reducer = (state = INITIAL_STATE, action) => {
       };
     case PokedexTypes.ADD_TO_COLLECTION_SUCCESS:
       return produce(state, (draft: Draft<PokedexState>) => {
-        const pokemonIndex = draft.pokedexes.findIndex(
+        const index = draft.pokedexes.findIndex(
           (p) => p.id === action.payload.pokemon.id
         );
 
-        if (pokemonIndex >= 0) {
-          draft.pokedexes[pokemonIndex].amount += 1;
+        if (index >= 0) {
+          draft.pokedexes[index].amount += 1;
         } else {
-          draft.pokedexes.push({
+          const obj = {
             ...action.payload.pokemon,
             amount: 1,
-          });
+          };
+
+          draft.pokedexes.push(obj);
         }
+
+        localStorage.setItem(
+          Constants.POKEDEXES,
+          JSON.stringify(draft.pokedexes)
+        );
+      });
+    case PokedexTypes.REMOVE_FROM_COLLECION:
+      return produce(state, (draft: Draft<PokedexState>) => {
+        const pokedexId = draft.pokedexes.findIndex(
+          (p) => p.id === action.payload.id
+        );
+
+        if (pokedexId >= 0) {
+          draft.pokedexes.splice(pokedexId, 1);
+        }
+
+        localStorage.setItem(
+          Constants.POKEDEXES,
+          JSON.stringify(draft.pokedexes)
+        );
       });
     default:
       return state;

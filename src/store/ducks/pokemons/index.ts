@@ -8,6 +8,8 @@ const INITIAL_STATE: PokemonsState = {
       next: null,
       previous: null,
       message: "",
+      nextOffset: 0,
+      prevOffset: 0,
       results: [],
       status: false,
     },
@@ -16,12 +18,13 @@ const INITIAL_STATE: PokemonsState = {
   error: false,
 };
 
-const reducer: Reducer = (state = INITIAL_STATE, action) => {
+const reducer: Reducer<PokemonsState> = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case PokemonsTypes.LOAD_REQUEST:
       return {
         ...state,
         loading: true,
+        error: false,
       };
     case PokemonsTypes.LAOD_SUCCESS:
       return {
@@ -35,7 +38,6 @@ const reducer: Reducer = (state = INITIAL_STATE, action) => {
         ...state,
         loading: false,
         error: true,
-        data: [],
       };
     default:
       return state;

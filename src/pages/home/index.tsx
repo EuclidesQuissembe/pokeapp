@@ -2,23 +2,23 @@ import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators, Dispatch } from "redux";
 
-import Navbar from "../../components/navbar";
-import Footer from "../../components/footer";
 import PokeItem from "./components/pokeItem";
 import { ApplicationState } from "../../store/index";
 import * as PokemonsActions from "../../store/ducks/pokemons/actions";
 
 import { Props } from "./types";
 
-import { Container, Row, Col, Button } from "./styles";
+import { Container, Button, ContainerButton } from "./styles";
+import { Row, Col } from "../../styles/styles";
+
 import { useCallback } from "react";
 import { Pokemon } from "../../store/ducks/pokemons/types";
+import Loading from "../../components/loading";
 
 const Home: React.FC<Props> = ({ data, loadRequest, addToCollection }) => {
-  const limit = 100;
+  const limit = 50;
 
   const [offset, setOffset] = useState<number>(0);
-  const [page, setPage] = useState<number>(0);
 
   const getPokemons = useCallback(() => {
     loadRequest({ limit, offset });
@@ -31,18 +31,17 @@ const Home: React.FC<Props> = ({ data, loadRequest, addToCollection }) => {
   function handlePrevPage() {
     if (!data.data.pokemons.previous) return;
 
-    changePage(page - 1);
+    changePage(data.data.pokemons.prevOffset);
   }
 
   function handleNextPage() {
     if (!data.data.pokemons.next) return;
 
-    changePage(page + 1);
+    changePage(data.data.pokemons.nextOffset);
   }
 
-  function changePage(p: number) {
-    setOffset(limit * p);
-    setPage(p);
+  function changePage(offset: number) {
+    setOffset(offset);
   }
 
   function addToPokemonCollection(pokemon: Pokemon) {
@@ -53,23 +52,26 @@ const Home: React.FC<Props> = ({ data, loadRequest, addToCollection }) => {
 
   return (
     <>
-      <Navbar />
       {data.loading ? (
-        <h1>Carregando...</h1>
+        <Loading />
       ) : (
         <Container>
           <Row>
             {data.data.pokemons.results.map((res) => (
-              <Col key={res.id} onClick={() => addToPokemonCollection(res)}>
-                <PokeItem data={res} />
+              <Col key={res.id} sm={12} md={4} lg={4}>
+                <PokeItem
+                  data={res}
+                  addToCollection={() => addToPokemonCollection(res)}
+                />
               </Col>
             ))}
           </Row>
         </Container>
       )}
-      <Button onClick={handlePrevPage}>Anterior</Button>
-      <Button onClick={handleNextPage}>Próximo</Button>
-      <Footer />
+      <ContainerButton>
+        <Button onClick={handlePrevPage}>Anterior</Button>
+        <Button onClick={handleNextPage}>Próximo</Button>
+      </ContainerButton>
     </>
   );
 };

@@ -1,11 +1,11 @@
-import { all, call, takeLatest, put } from "redux-saga/effects";
+import { all, call, takeEvery, put } from "redux-saga/effects";
 import api from "../../../services/api";
 
 import { loadFailure, loadSuccess } from "./actions";
 
 import { Constants } from "../../../utils/constants";
 import { Pokedex } from "./types";
-import { PokedexTypes } from "../pokedex/types";
+import { PokedexTypes } from "./types";
 import { addToCollectionSuccess } from "./actions";
 
 function* load() {
@@ -56,6 +56,6 @@ function* addToCollection({ payload }: any): any {
 }
 
 export default all([
-  takeLatest(PokedexTypes.LOAD_REQUEST, load),
-  takeLatest(PokedexTypes.ADD_TO_COLLECTION, addToCollection),
+  takeEvery(PokedexTypes.LOAD_REQUEST, load),
+  takeEvery(PokedexTypes.ADD_TO_COLLECTION, addToCollection),
 ]);

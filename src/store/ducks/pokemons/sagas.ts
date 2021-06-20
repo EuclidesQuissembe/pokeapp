@@ -14,6 +14,8 @@ function* load({ payload }: any): any {
             next
             previous
             status
+            nextOffset
+            prevOffset
             message
             results {
               id

@@ -23,6 +23,8 @@ export interface PokemonsResponse {
   next: string | null;
   previous: string | null;
   message: string;
+  nextOffset: number;
+  prevOffset: number;
   status: boolean;
   results: Pokemon[];
 }

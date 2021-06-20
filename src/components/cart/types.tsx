@@ -1,5 +1,9 @@
 import { PokedexState } from "../../store/ducks/pokedex/types";
 
-export type Props = {
+export interface DispatchProps {
+  loadFromDB: () => void;
+}
+
+export interface Props extends DispatchProps {
   data: PokedexState;
-};
+}
