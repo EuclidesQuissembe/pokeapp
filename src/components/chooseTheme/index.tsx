@@ -13,7 +13,6 @@ import usePersistedState from "../../hooks/usePersistedState";
  */
 import dTheme from "../../styles/themes/default";
 import orange from "../../styles/themes/orange";
-import green from "../../styles/themes/green";
 import yellow from "../../styles/themes/yellow";
 
 import * as ThemeActions from "../../store/ducks/theme/actions";
@@ -30,16 +29,12 @@ const ChooseTheme: React.FC<Props> = ({ changeTheme, ...defaultTheme }) => {
 
   const themes = [
     {
-      label: "white",
+      label: "green",
       theme: dTheme,
     },
     {
       label: "orange",
       theme: orange,
-    },
-    {
-      label: "green",
-      theme: green,
     },
     {
       label: "yellow",

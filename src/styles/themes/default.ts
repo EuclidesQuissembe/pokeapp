@@ -1,13 +1,13 @@
-const defaultTheme = {
-  title: "white",
+const green = {
+  title: "green",
 
   colors: {
-    primary: "#fff",
+    primary: "#0C8346",
     secondary: "#D1AC00",
     tint: "#F6BE9A",
-    white: "#000",
+    white: "#FAF4D3",
     black: "#0C1618",
   },
 };
 
-export default defaultTheme;
+export default green;
